@@ -41,6 +41,17 @@ Currently, this ultra-lightweight version is strictly optimized to search standa
 = Why doesn't it search when I type 1 or 2 letters? =
 To prevent the database from returning thousands of useless results (like searching for the letter "a"), the live search requires a minimum of 3 characters before it triggers the database query.
 
+== Security ==
+
+This plugin follows WordPress security best practices:
+
+* The AJAX search endpoint verifies a nonce via `check_ajax_referer()` on every request.
+* Search input is sanitized with `sanitize_text_field()` and length-capped before use.
+* Results are escaped with `esc_html()` and `esc_url()` before being returned as JSON.
+* Searches run through `WP_Query` (no raw SQL), and only published posts are returned.
+* Direct file access is blocked with an `ABSPATH` guard.
+* No secrets or API keys are stored in the plugin code.
+
 == Changelog ==
 
 = 1.0.0 =
