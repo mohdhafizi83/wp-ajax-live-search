@@ -34,6 +34,52 @@ Minimum keyword length: 3 characters.
 - **Backend**: `wp_ajax_als_live_search` / `wp_ajax_nopriv_als_live_search` → lean `WP_Query` → JSON
 - **Security**: nonce + `sanitize_text_field` + `esc_html`/`esc_url` before JSON encode
 
+## Installation
+
+### Upload the zip (recommended)
+
+1. Download `wp-ajax-live-search.zip` from the [latest release](https://github.com/mohdhafizi83/wp-ajax-live-search/releases/latest).
+2. In wp-admin, go to **Plugins → Add New → Upload Plugin**.
+3. Choose the zip, click **Install Now**, then **Activate**.
+
+### WP-CLI
+
+```bash
+wp plugin install --activate https://github.com/mohdhafizi83/wp-ajax-live-search/releases/latest/download/wp-ajax-live-search.zip
+```
+
+### Manual
+
+Copy the plugin folder into `wp-content/plugins/` and activate it under **Plugins → Installed Plugins**.
+
+## Configuration
+
+There is **no settings page** — the plugin is shortcode-driven.
+
+- Place `[wp_ajax_live_search]` in any page, post, widget, or theme template.
+- Searches published **posts** only, capped at 5 results.
+- Behaviour knobs live in `assets/live-search.js`: minimum keyword length (3 chars) and debounce delay (300 ms).
+
+## FAQ
+
+**Why do I have to type 3 characters before results appear?**
+The 3-character minimum avoids firing a database query on single-letter keystrokes. It can be changed in `assets/live-search.js`.
+
+**Does it search pages or products?**
+Out of the box it searches published posts (`post_type => 'post'`). Edit the `WP_Query` args in `wp-ajax-live-search.php` to change the post type.
+
+**Will it slow down my site?**
+No. The JS only loads on pages that contain the shortcode, requests are debounced (300 ms), and the query runs with `no_found_rows` and disabled meta/term caches.
+
+**Does it work for logged-out visitors?**
+Yes — the AJAX endpoint is registered for both logged-in and guest users (`wp_ajax_*` and `wp_ajax_nopriv_*`), protected by a nonce.
+
+## Screenshots
+
+Screenshot (add your own)
+
+_No screenshot assets are committed to this repository yet. Drop an image at `assets/screenshots/screenshot-1.png` and replace this placeholder — do not hotlink invented screenshots._
+
 ## License
 
 GPL v2 or later.
